@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark" data-theme="theme-birthday">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papa's Ultimate Birthday Game 🎂</title>
+
+  <!-- Google Fonts for Birthday Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- FIXED UNLIMITED DYNAMIC BACKGROUND LAYER -->
+  <div id="dynamic-bg" class="dynamic-bg-layer"></div>
+  <div id="bg-overlay" class="bg-overlay-layer"></div>
+
+  <!-- FLOATING CELEBRATION BALLOONS & ANIMATED SPARKS -->
+  <div class="floating-decorations" aria-hidden="true">
+    <span class="balloon b1">🎈</span>
+    <span class="balloon b2">🥳</span>
+    <span class="balloon b3">⚽</span>
+    <span class="balloon b4">☕</span>
+    <span class="balloon b5">🎉</span>
+    <span class="balloon b6">🎂</span>
+  </div>
+
+  <!-- Ethereal Sparkle Particles Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- CELEBRATORY FESTIVE TOP BAR -->
+    <header class="party-header">
+      <div class="header-brand">
+        <span class="party-icon">👑</span>
+        <div>
+          <h1 class="party-title">Papa's Birthday Legacy!</h1>
+          <p class="party-subtitle">The Ultimate Interactive Family Challenge</p>
+        </div>
+      </div>
+
+      <!-- CONTROL TOOLBAR -->
+      <nav class="control-toolbar">
+        <!-- Unlimited Random Background Fetcher -->
+        <button id="btn-random-bg" class="tool-btn bg-btn" onclick="fetchRandomBackground()" title="Load New Random Background">
+          <span class="btn-icon">🔀</span>
+          <span class="btn-text">Random BG</span>
+        </button>
+
+        <!-- Background Toggle On/Off -->
+        <button id="btn-toggle-bg" class="tool-btn" onclick="toggleBackground()" title="Toggle Background On/Off">
+          <span id="bg-toggle-icon" class="btn-icon">🖼️</span>
+          <span id="bg-toggle-label" class="btn-text">Turn Off BG</span>
+        </button>
+
+        <!-- Display Mode Switcher -->
+        <button id="btn-mode-switcher" class="tool-btn" onclick="cycleDisplayMode()" title="Switch Visual Mode">
+          <span id="mode-icon" class="btn-icon">🌙</span>
+          <span id="mode-label" class="btn-text">Dark Mode</span>
+        </button>
+
+        <!-- Audio Sound Effects Toggle -->
+        <button id="btn-audio-toggle" class="tool-btn" onclick="toggleAudio()" title="Toggle Sound FX">
+          <span id="audio-icon" class="btn-icon">🔊</span>
+          <span class="btn-text">FX</span>
+        </button>
+
+        <!-- Background Music Play / Pause -->
+        <button id="btn-music-toggle" class="tool-btn music-btn" onclick="toggleYoutubeMusic()" title="Play Birthday Music">
+          <span id="music-icon" class="btn-icon">🎵</span>
+          <span id="music-label" class="btn-text">Birthday Song</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- HIDDEN YOUTUBE BACKGROUND MUSIC PLAYER EMBED -->
+    <div id="youtube-player-container" class="sr-only">
+      <iframe 
+        id="yt-music-iframe"
+        width="100" 
+        height="100" 
+        src="https://www.youtube.com/embed/1aPGm0_WEK8?enablejsapi=1&autoplay=0&loop=1&playlist=1aPGm0_WEK8" 
+        title="Birthday Background Music" 
+        allow="autoplay">
+      </iframe>
+    </div>
+
+    <!-- MAIN GAME CARD HUD -->
+    <main class="game-hud">
+
+      <!-- PROGRESS & SCORE HEADER -->
+      <div class="hud-top-bar">
+        <div class="category-pill">
+          <span class="pill-sparkle">✨</span>
+          <span id="category-badge">Loading...</span>
+        </div>
+
+        <div class="progress-container">
+          <div id="question-counter" class="counter-text">Challenge 1 of 23</div>
+          <div class="progress-track">
+            <div id="progress-fill" class="progress-fill-bar" style="width: 4%;"></div>
+          </div>
+        </div>
+
+        <div class="score-badge">
+          <span class="score-icon">⭐</span>
+          <span id="current-score-val" class="score-number">2,000</span>
+          <span class="score-label">Pts</span>
+        </div>
+      </div>
+
+      <!-- ACTIVE QUESTION CARD AREA -->
+      <section id="question-card" class="question-card-box">
+        <h2 id="question-title" class="card-title">Loading Question...</h2>
+        <p id="question-prompt" class="card-prompt">Preparing Papa's birthday scenario...</p>
+
+        <!-- DYNAMIC ACTION AREA 1: WOULD YOU RATHER (WYR) -->
+        <div id="wyr-actions" class="action-layout wyr-grid hidden">
+          <button class="option-btn choice-a" onclick="handleWyrSelection('A')">
+            <span class="choice-tag">OPTION A</span>
+            <span id="text-option-a" class="choice-text">Option A Text</span>
+          </button>
+
+          <div class="versus-divider">
+            <span>VS</span>
+          </div>
+
+          <button class="option-btn choice-b" onclick="handleWyrSelection('B')">
+            <span class="choice-tag">OPTION B</span>
+            <span id="text-option-b" class="choice-text">Option B Text</span>
+          </button>
+        </div>
+
+        <!-- DYNAMIC ACTION AREA 2: MULTIPLE CHOICE (MCQ) -->
+        <div id="mcq-actions" class="action-layout mcq-grid hidden">
+          <!-- Dynamically populated via script.js -->
+        </div>
+
+        <!-- DYNAMIC ACTION AREA 3: ETHEREAL JOKES & WISDOM -->
+        <div id="joke-actions" class="action-layout joke-layout hidden">
+          <button id="reveal-joke-btn" class="festive-action-btn" onclick="revealEtherealAnswer()">
+            🎁 Reveal Eternal Truth!
+          </button>
+
+          <div id="ethereal-answer-box" class="ethereal-box hidden">
+            <div class="ethereal-glow"></div>
+            <p id="joke-answer-text" class="punchline-text"></p>
+          </div>
+
+          <button id="next-joke-btn" class="festive-action-btn next-btn hidden" onclick="advanceQuestion()">
+            Continue Challenge ➔
+          </button>
+        </div>
+      </section>
+
+      <!-- GRAND FINALE SUMMARY SCREEN (HIDDEN BY DEFAULT) -->
+      <section id="summary-screen" class="summary-card-box hidden">
+        <div class="summary-header">
+          <span class="crown-badge">👑</span>
+          <h2>Papa's Birthday Legacy Summary!</h2>
+          <div id="persona-rank" class="persona-rank-title">Supreme Patriarch</div>
+          <p id="persona-verdict" class="persona-verdict-subtitle"></p>
+        </div>
+
+        <div class="final-score-card">
+          <span class="score-caption">Total Accumulated Score</span>
+          <div id="final-score-val" class="score-display">2,000 Pts</div>
+        </div>
+
+        <h3>Detailed Challenge Breakdown</h3>
+        <div id="summary-list" class="summary-items-grid">
+          <!-- Generated sequentially by script.js -->
+        </div>
+
+        <div class="summary-actions">
+          <button class="festive-action-btn" onclick="resetGame()">
+            🔄 Play Again
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- REACTION & VERDICT MODAL DIALOG -->
+  <div id="verdict-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div id="verdict-icon" class="modal-emoji">🎉</div>
+      <h3 class="modal-title">Official Decision!</h3>
+      <div id="score-delta-badge" class="delta-badge positive">+100 Points</div>
+      <p id="verdict-body-text" class="modal-text"></p>
+      
+      <button class="modal-confirm-btn" onclick="dismissVerdictAndAdvance()">
+        Next Question ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT ENGINE -->
+  <script src="script.js"></script>
+  
+  <!-- YOUTUBE MUSIC EMBED CONTROL SCRIPT -->
+  <script>
+    let isMusicPlaying = false;
+    
+    function toggleYoutubeMusic() {
+      const iframe = document.getElementById('yt-music-iframe');
+      const label = document.getElementById('music-label');
+      const icon = document.getElementById('music-icon');
+      
+      if (!iframe) return;
+
+      if (!isMusicPlaying) {
+        // Post message to YouTube IFrame API to play video
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        isMusicPlaying = true;
+        if (label) label.textContent = "Pause Music";
+        if (icon) icon.textContent = "🎶";
+      } else {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        isMusicPlaying = false;
+        if (label) label.textContent = "Birthday Song";
+        if (icon) icon.textContent = "🎵";
+      }
+    }
+  </script>
+</body>
+</html>
