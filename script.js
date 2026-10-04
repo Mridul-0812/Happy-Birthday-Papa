@@ -1,17 +1,20 @@
 /* ==========================================================================
-   PAPA'S BIRTHDAY LEGACY GAME - MASTER ENGINE (V5.0 ULTRA)
+   PAPA'S BIRTHDAY LEGACY GAME - MASTER ENGINE (V6.0 ULTRA ELEGANCE)
+   Celebrating October 6th - Papa's Special Birthday Edition 🎂
+   
    Features:
-   - Dynamic Background Blur vs. Focus State Manager (Interactive Glassmorphism)
-   - Unblur BG Toggle Control for Background & Card Transparency
-   - Multi-Angle Particle & Confetti Cannon Physics Engine
-   - Synthesized Multi-Tone Web Audio Sound Effects (Fanfares, Combos, Pops)
-   - Enhanced Interactive Mini-Games with Leveling, Multipliers & High Scores
-   - Adaptive Question Transition System with Dynamic Score & Undo Rollbacks
-   - Instant Local Storage High-Score Persistence
+   - PowerPoint-Style Multi-Stage Front Cover & Intro Slide System
+   - Dedicated Circular Portrait Image Container for Papa
+   - Interactive "About This Website" Creative Intro Drawer
+   - Dedicated Quiz Front Cover Page prior to Trivia Launch
+   - October 6th Birthday Power-Ups, Streak Multipliers & Negative Points
+   - Timed Birthday Mini-Games with LocalStorage High Score Persistence
+   - Dynamic Background Blur & Glassmorphism Control
+   - All 23 Original Trivia Questions Kept 100% Unchanged
    ========================================================================== */
 
 // --------------------------------------------------------------------------
-// 1. QUESTION DATABASE (ALL 23 QUESTIONS WITH CHOICE METADATA)
+// 1. QUESTION DATABASE (ALL 23 ORIGINAL QUESTIONS PRESERVED EXACTLY)
 // --------------------------------------------------------------------------
 const gameQuestions = [
   // ==================== CATEGORY 1: FOOD & DRINKS ====================
@@ -61,7 +64,7 @@ const gameQuestions = [
     type: "WYR",
     theme: "theme-chai",
     title: "The Holy Bottle Ghiya Trade-Off",
-    prompt: "Would Papa rather eat a giant bowl of Ghiya (Bottle Gourd) for breakfast, lunch, and dinner for a week OR never be allowed to eat Urad Dully Daal again?",
+    prompt: "Would Papa rather eat a giant bowl of Ghiya (Bottle God) for breakfast, lunch, and dinner for a week OR never be allowed to eat Urad Dully Daal again?",
     optionA: {
       text: "Eat a giant bowl of Ghiya 3 times a day for a week",
       points: 140,
@@ -69,7 +72,7 @@ const gameQuestions = [
       popup: { title: "🥗 DIVINE GHIYA DEVOTEES!", icon: "🥒", badge: "HEALTH GOD", msg: "21 meals of Bottle Gourd consumed! Urad Daal has been saved for eternity." }
     },
     optionB: {
-      text: "Never be allowed to eat Urad Dully Daal again for life",
+      text: "Never be allowed to eat Urad Dully Daal again` for life",
       points: -120,
       verdict: "Tragic error! Permanently banning Urad Daal removes a cornerstone of culinary happiness.",
       popup: { title: "💔 DAAL BAN DISASTER!", icon: "🍲", badge: "CULINARY TRAGEDY", msg: "Banning Urad Daal forever?! The dinner table will never recover." }
@@ -287,7 +290,7 @@ const gameQuestions = [
     type: "MCQ",
     theme: "theme-birthday",
     title: "1. The 'Happy Birthday' Song Survival Protocol",
-    prompt: "What is the scientifically correct thing to do while everyone awkwardly sings 'Happy Birthday' to you for 45 agonizing seconds?",
+    prompt: "What is the scientifically correct thing to do while everyone awkwardly sings 'Happy Birthday' to you for 45 agonising seconds?",
     options: [
       {
         text: "A) Stare intensely into the candle flame like a medieval wizard, avoiding all eye contact.",
@@ -370,7 +373,7 @@ const gameQuestions = [
         popup: { title: "🧦 SOCK MITTENS ACTIVATED!", icon: "🧤", badge: "CREATIVE FASHION", msg: "Hand warmth +100%! Ready for winter inside the air-conditioned room." }
       },
       {
-        text: "C) Realize with horror that you crossed the age threshold where socks make you genuinely excited.",
+        text: "C) Realise with horror that you crossed the age threshold where socks make you genuinely excited.",
         points: 150,
         verdict: "SPOT ON! Fresh, high-quality socks are quietly one of life's greatest adult pleasures.",
         popup: { title: "🧦 HIGH QUALITY COTTON BLISS!", icon: "💯", badge: "ADULT MILESTONE", msg: "Fresh cushioned arch support! You have officially embraced maturity." }
@@ -394,7 +397,7 @@ const gameQuestions = [
       {
         text: "A) The birthday person gets 70% of the cake, and the guests fight over remaining crumbs.",
         points: 80,
-        verdict: "Dictator privileges! Monopolizing the frosting.",
+        verdict: "Dictator privileges! Monopolising the frosting.",
         popup: { title: "👑 CAKE MONARCHY!", icon: "🍰", badge: "DICTATOR PRIVILEGE", msg: "70% allocated to the chief birthday recipient! Rule upheld." }
       },
       {
@@ -539,9 +542,9 @@ let arcadeHighScore = parseInt(localStorage.getItem("papa_arcade_highscore") || 
 
 // Dynamic Background Keywords
 const bgSearchKeywords = [
-"stadium", "tea", "celebration", "football", "coffee-shop", 
-"cozy", "sunset", "fireworks", "luxury", "nature-landscape", 
-"mountains", "abstract-lights", "party-confetti", "old-trafford"
+  "stadium", "tea", "celebration", "football", "coffee-shop", 
+  "cozy", "sunset", "fireworks", "luxury", "nature-landscape", 
+  "mountains", "abstract-lights", "party-confetti", "old-trafford"
 ];
 
 // Clicker & Mini-Game State Tracker
@@ -551,26 +554,329 @@ let cakeClickerTimer = null;
 let autoBakerActive = false;
 
 // --------------------------------------------------------------------------
-// 3. INITIALIZATION & STYLING INJECTION ENGINE
+// 3. INITIALISATION & STYLING INJECTION ENGINE
 // --------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   injectGlobalCustomStyles();
   initAudio();
   injectGoBackButtonAndGameHubNav();
   bindUnblurBgButton();
-  loadQuestion(currentQuestionIndex);
-  updateScoreUI();
+  
+  // Render PowerPoint-style Cover Slides before main game interaction
+  renderMainFrontCoverSlide();
+  
   initFloatingBalloonInteractions();
   initCrownEasterEgg();
   initKonamiCode();
   fetchRandomBackground();
 });
 
-// Inject Custom CSS directly into page head for blurred background state & Arcade styling
+// --------------------------------------------------------------------------
+// 4. POWERPOINT-STYLE COVER SLIDE SYSTEM (MAIN INTRO & QUIZ COVER)
+// --------------------------------------------------------------------------
+function renderMainFrontCoverSlide() {
+  // Hide main HUD initial view until Papa starts the experience
+  const mainHud = document.querySelector(".game-hud");
+  if (mainHud) mainHud.classList.add("hidden");
+
+  let coverOverlay = document.getElementById("ppt-front-cover-slide");
+  if (!coverOverlay) {
+    coverOverlay = document.createElement("div");
+    coverOverlay.id = "ppt-front-cover-slide";
+    coverOverlay.className = "ppt-slide-overlay";
+    document.body.appendChild(coverOverlay);
+  }
+
+  coverOverlay.innerHTML = `
+    <div class="ppt-slide-card animate-slide-entry">
+      <div class="october-date-badge">🎉 6th October Special Edition 🎉</div>
+      
+      <!-- Papa's Portrait Circular Holder -->
+      <div class="papa-portrait-frame">
+        <div class="portrait-glow-ring"></div>
+        <!-- Replaceable image placeholder for Papa's Portrait -->
+        <img id="papa-portrait-img" src="father4.png" alt="Papa's Portrait" />
+      </div>
+
+      <h1 class="slide-main-title">Happy Birthday, Papa! 🎂</h1>
+      <p class="slide-main-subtitle">Welcome to your personalised 6th October Legacy Celebration!</p>
+
+      <!-- Interactive "About This Website" Creative Drawer -->
+      <button class="ppt-action-btn secondary" onclick="toggleAboutWebsiteDrawer()">
+        <span id="about-btn-icon">💡</span> <span id="about-btn-text">About This Website (Click to Reveal)</span>
+      </button>
+
+      <div id="about-website-drawer" class="about-drawer hidden">
+        <ul class="about-pointers-list">
+          <li><strong>👑 Handcrafted Legacy Trivia:</strong> 23 custom questions built around Papa's favorite things—from Masala Chai to Old Trafford!</li>
+          <li><strong>🗓️ The October 6th Honor:</strong> Special birthday multipliers and negative point penalties to test true household knowledge!</li>
+          <li><strong>🎮 Live Arcade Mini-Games:</strong> Balloon Blitz, Cake Rush, and Chai Smash with real-time high scores & power-ups!</li>
+          <li><strong>🎵 Ethereal Audio & Visuals:</strong> Interactive sound effects, dynamic blurred backdrops, and confetti celebrations.</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer-action">
+        <button class="ppt-action-btn primary" onclick="transitionToQuizCoverSlide()">
+          🚀 Proceed to Papa's Quiz Cover Slide ➔
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleAboutWebsiteDrawer() {
+  playSound('click');
+  const drawer = document.getElementById("about-website-drawer");
+  const icon = document.getElementById("about-btn-icon");
+  const text = document.getElementById("about-btn-text");
+
+  if (drawer.classList.contains("hidden")) {
+    drawer.classList.remove("hidden");
+    icon.textContent = "📖";
+    text.textContent = "Hide Website Highlights";
+  } else {
+    drawer.classList.add("hidden");
+    icon.textContent = "💡";
+    text.textContent = "About This Website (Click to Reveal)";
+  }
+}
+
+function transitionToQuizCoverSlide() {
+  playSound('positive');
+  triggerConfettiExplosion();
+
+  const coverOverlay = document.getElementById("ppt-front-cover-slide");
+  if (!coverOverlay) return;
+
+  coverOverlay.innerHTML = `
+    <div class="ppt-slide-card animate-slide-entry">
+      <div class="october-date-badge">⚽ Quiz Front Cover - 6th October Arena 🏏</div>
+      
+      <div class="quiz-cover-icon-box">
+        <span class="quiz-giant-emoji">🏆</span>
+      </div>
+
+      <h1 class="slide-main-title">The Ultimate Papa Trivia Challenge</h1>
+      <p class="slide-main-subtitle">23 Master Questions | Negative Points | Multiplier Power-Ups</p>
+
+      <div class="quiz-rules-box">
+        <div class="rule-chip">🔥 <strong>Streak Combos:</strong> Consecutive right answers trigger 2x/3x bonus multipliers!</div>
+        <div class="rule-chip">⚠️ <strong>Negative Points:</strong> Blasphemous tea or rival football choices deduct points!</div>
+        <div class="rule-chip">📅 <strong>October 6th Bonus:</strong> Special score bonuses applied throughout the journey!</div>
+        <div class="rule-chip">↺ <strong>Rollback Support:</strong> Made a mistake? Use the 'Go Back' button anytime!</div>
+      </div>
+
+      <div class="slide-footer-action" style="margin-top: 20px;">
+        <button class="ppt-action-btn primary pulse-glow" onclick="startTriviaGameExperience()">
+          ⚡ Enter Trivia Arena Now ➔
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function startTriviaGameExperience() {
+  playSound('fanfare');
+  triggerConfettiExplosion(true);
+
+  const coverOverlay = document.getElementById("ppt-front-cover-slide");
+  if (coverOverlay) coverOverlay.remove();
+
+  const mainHud = document.querySelector(".game-hud");
+  if (mainHud) mainHud.classList.remove("hidden");
+
+  // Load the first question
+  currentQuestionIndex = 0;
+  loadQuestion(currentQuestionIndex);
+  updateScoreUI();
+}
+
+// Inject Custom CSS directly into page head for PowerPoint Slide overlays, circular frame & Arcade styling
 function injectGlobalCustomStyles() {
   const styleEl = document.createElement("style");
   styleEl.id = "papa-dynamic-game-styles";
   styleEl.textContent = `
+    /* PowerPoint-Style Slide Overlays */
+    .ppt-slide-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, rgba(15, 23, 42, 0.95), rgba(10, 10, 26, 0.98));
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .ppt-slide-card {
+      background: rgba(30, 41, 59, 0.75);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 28px;
+      padding: 2.5rem;
+      max-width: 650px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.2);
+      backdrop-filter: blur(20px);
+      color: #f8fafc;
+      position: relative;
+    }
+
+    .animate-slide-entry {
+      animation: slideInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes slideInUp {
+      0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .october-date-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Papa's Circular Frame Placeholder */
+    .papa-portrait-frame {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 18px auto;
+      border-radius: 50%;
+      padding: 6px;
+      background: linear-gradient(135deg, #ffd700, #ec4899, #38bdf8);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+    }
+
+    .papa-portrait-frame img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0f172a;
+      background: #1e293b;
+    }
+
+    .slide-main-title {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #ffffff, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-main-subtitle {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+
+    .ppt-action-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 28px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .ppt-action-btn.primary {
+      background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #6366f1 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4);
+    }
+
+    .ppt-action-btn.primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.6);
+    }
+
+    .ppt-action-btn.secondary {
+      background: rgba(51, 65, 85, 0.8);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      margin-bottom: 15px;
+    }
+
+    .ppt-action-btn.secondary:hover {
+      background: rgba(51, 65, 85, 1);
+      color: #ffffff;
+    }
+
+    .pulse-glow {
+      animation: btnGlow 1.8s infinite alternate;
+    }
+
+    @keyframes btnGlow {
+      0% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.4); }
+      100% { box-shadow: 0 0 35px rgba(236, 72, 153, 0.9); }
+    }
+
+    .about-drawer {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .about-pointers-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: #cbd5e1;
+    }
+
+    .quiz-rules-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .rule-chip {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+    }
+
+    .quiz-giant-emoji {
+      font-size: 4rem;
+      display: inline-block;
+      margin-bottom: 10px;
+      animation: bounceSlow 2s infinite ease-in-out;
+    }
+
+    @keyframes bounceSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     /* Blur vs Unblur Background States */
     .app-blur-active #question-card,
     .app-blur-active .hero-header,
@@ -654,11 +960,6 @@ function injectGlobalCustomStyles() {
       filter: brightness(1.1);
     }
 
-    .arcade-custom-btn:active {
-      transform: translateY(1px) scale(0.98) !important;
-      box-shadow: 0 2px 10px rgba(168, 85, 247, 0.4) !important;
-    }
-
     .nav-btn-styled {
       background: rgba(30, 41, 59, 0.85) !important;
       color: #f8fafc !important;
@@ -687,7 +988,6 @@ function injectGlobalCustomStyles() {
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
     }
 
-    /* Choice Pop-Up Reaction Container */
     .choice-popup-container {
       background: rgba(15, 23, 42, 0.92);
       border: 2px solid #a855f7;
@@ -723,7 +1023,6 @@ function injectGlobalCustomStyles() {
       40%, 80% { transform: translateX(10px); }
     }
 
-    /* Floating Score Popup Text */
     .floating-score-pop {
       position: fixed;
       font-weight: 900;
@@ -750,9 +1049,8 @@ function initAudio() {
   }
 }
 
-// Inject Navigation Control Buttons (Go Back, Unblur BG, Arcade Hub)
 function injectGoBackButtonAndGameHubNav() {
-  const navContainer = document.querySelector(".nav-controls") || document.querySelector("header") || document.querySelector(".button-group") || document.body;
+  const navContainer = document.querySelector(".nav-controls") || document.querySelector("header") || document.querySelector(".control-toolbar") || document.body;
 
   if (navContainer && !document.getElementById("go-back-btn")) {
     const backBtn = document.createElement("button");
@@ -781,13 +1079,12 @@ function injectGoBackButtonAndGameHubNav() {
     gameBtn.id = "arcade-hub-btn";
     gameBtn.className = "nav-btn-styled highlight";
     gameBtn.style.marginLeft = "8px";
-    gameBtn.innerHTML = `🎮 Papa's Game Hub`;
+    gameBtn.innerHTML = `🎮 Papa's Arcade`;
     gameBtn.onclick = openMiniGameHub;
     navContainer.appendChild(gameBtn);
   }
 }
 
-// Bind event listener to pre-existing HTML unblur buttons if present
 function bindUnblurBgButton() {
   const targetBtn = document.getElementById("toggleBlurBtn") || document.getElementById("unblur-bg-btn");
   if (targetBtn) {
@@ -795,7 +1092,6 @@ function bindUnblurBgButton() {
   }
 }
 
-// Toggle background & interface blur state on/off
 function toggleUnblurBG() {
   playSound('click');
   isManualUnblurred = !isManualUnblurred;
@@ -812,7 +1108,6 @@ function toggleUnblurBG() {
   }
 }
 
-// Dynamic Background Blur State Controller
 function setBlurState(isBlurred) {
   if (isBlurred && !isManualUnblurred) {
     document.body.classList.add("app-blur-active");
@@ -822,7 +1117,7 @@ function setBlurState(isBlurred) {
 }
 
 // --------------------------------------------------------------------------
-// 4. UNLIMITED WEB BACKGROUND ENGINE
+// 5. UNLIMITED WEB BACKGROUND ENGINE
 // --------------------------------------------------------------------------
 function fetchRandomBackground() {
   if (!bgEnabled) return;
@@ -874,7 +1169,7 @@ function toggleBackground() {
 }
 
 // --------------------------------------------------------------------------
-// 5. DISPLAY MODE SWITCHER
+// 6. DISPLAY MODE SWITCHER
 // --------------------------------------------------------------------------
 function cycleDisplayMode() {
   playSound('click');
@@ -901,7 +1196,7 @@ function cycleDisplayMode() {
 }
 
 // --------------------------------------------------------------------------
-// 6. QUESTION RENDERER & "GO BACK" UNDO ENGINE
+// 7. QUESTION RENDERER & "GO BACK" UNDO ENGINE
 // --------------------------------------------------------------------------
 function loadQuestion(index) {
   if (index >= gameQuestions.length) {
@@ -999,7 +1294,7 @@ function renderJokeQuestion(q) {
 }
 
 // --------------------------------------------------------------------------
-// 7. CHOICE HANDLERS & DYNAMIC OPTION POP-UP SYSTEM
+// 8. CHOICE HANDLERS & DYNAMIC OPTION POP-UP SYSTEM
 // --------------------------------------------------------------------------
 function handleWyrSelection(choice) {
   const q = gameQuestions[currentQuestionIndex];
@@ -1083,14 +1378,12 @@ function showVerdictModal(verdictText, pointsDelta, emoji, popupData = null) {
   if (modal) modal.classList.add("modal-overlay-blur");
   document.getElementById("verdict-icon").textContent = emoji;
 
-  // Restore standard Next Question button for normal trivia questions
   const actionBtn = document.querySelector("#verdict-modal button:not(.arcade-custom-btn)") || document.getElementById("verdict-next-btn");
   if (actionBtn) {
     actionBtn.textContent = "Next Question ➔";
     actionBtn.onclick = dismissVerdictAndAdvance;
   }
 
-  // Insert choice-specific option pop-up reaction if present
   let popupHtml = "";
   if (popupData) {
     popupHtml = `
@@ -1136,7 +1429,7 @@ function updateScoreUI() {
 }
 
 // --------------------------------------------------------------------------
-// 8. GRAND FINALE SUMMARY ENGINE
+// 9. GRAND FINALE SUMMARY ENGINE
 // --------------------------------------------------------------------------
 function renderSummaryScreen() {
   setBlurState(false);
@@ -1150,7 +1443,7 @@ function renderSummaryScreen() {
 
   if (totalScore >= 4500) {
     rankEl.textContent = "👑 Supreme Patriarch & Grandmaster Chai Sage";
-    verdictEl.textContent = "Official Verdict: Absolute Master of the Household. Undisputed Legend of the Living Room.";
+    verdictEl.textContent = "Official Verdict: Absolute Master of the Household. Undisputed October 6th Birthday Legend.";
     playSound('fanfare');
   } else if (totalScore >= 2800) {
     rankEl.textContent = "⚽ Senior Tactical Pundit & Master Tea Brewer";
@@ -1202,7 +1495,7 @@ function resetGame() {
 }
 
 // --------------------------------------------------------------------------
-// 9. ENHANCED SOUND SYNTHESIZER (WEB AUDIO API)
+// 10. ENHANCED SOUND SYNTHESISER (WEB AUDIO API)
 // --------------------------------------------------------------------------
 function toggleAudio() {
   audioEnabled = !audioEnabled;
@@ -1298,17 +1591,14 @@ function playSound(type) {
 }
 
 // --------------------------------------------------------------------------
-// 10. ADVANCED MINI-GAME ARCADE HUB (WITH CLOSE ARCADE FIX)
+// 11. ADVANCED MINI-GAME ARCADE HUB (OCTOBER 6TH SPECIALS)
 // --------------------------------------------------------------------------
-
-// Close Arcade Modal without skipping/advancing trivia question
 function closeArcadeModal() {
   playSound('click');
   setBlurState(false);
   const modal = document.getElementById("verdict-modal");
   if (modal) modal.classList.add("hidden");
 
-  // Reset button back to "Next Question ➔" for standard trivia flow
   const actionBtn = document.querySelector("#verdict-modal button:not(.arcade-custom-btn)") || document.getElementById("verdict-next-btn");
   if (actionBtn) {
     actionBtn.textContent = "Next Question ➔";
@@ -1326,10 +1616,9 @@ function openMiniGameHub() {
   const deltaBadge = document.getElementById("score-delta-badge");
   if (deltaBadge) {
     deltaBadge.className = "delta-badge positive";
-    deltaBadge.textContent = "PAPA'S BIRTHDAY ARCADE";
+    deltaBadge.textContent = "PAPA'S 6TH OCTOBER ARCADE";
   }
 
-  // SWAP ACTION BUTTON TO "✖ Close Arcade"
   const actionBtn = document.querySelector("#verdict-modal button:not(.arcade-custom-btn)") || document.getElementById("verdict-next-btn");
   if (actionBtn) {
     actionBtn.textContent = "✖ Close Arcade";
@@ -1341,7 +1630,7 @@ function openMiniGameHub() {
     <div style="margin-bottom:12px; font-weight:600; color:#cbd5e1;">Select a timed challenge to earn bonus Papa Points!</div>
     <div style="font-size:0.85rem; color:#f59e0b; margin-bottom:12px; font-weight:bold;">🏆 Arcade Best Score: ${arcadeHighScore} Pts</div>
     <div style="display:flex; flex-direction:column; gap:10px; padding:5px;">
-      <button class="arcade-custom-btn" onclick="startBalloonPopGame()">🎈 Pop The Balloon Blitz (15s Speed Run)</button>
+      <button class="arcade-custom-btn" onclick="startBalloonPopGame()">🎈 October 6th Balloon Blitz (15s Speed Run)</button>
       <button class="arcade-custom-btn" onclick="startCakeClickerGame()">🎂 Birthday Cake Rush (20s Fever Mode)</button>
       <button class="arcade-custom-btn" onclick="startRunBirthdayGame()">🏃 Run Birthday (30s Obstacle Dash)</button>
       <button class="arcade-custom-btn" onclick="startSecretArcadeGame()">☕ Chai Smash Frenzy (15s Targets)</button>
@@ -1351,7 +1640,7 @@ function openMiniGameHub() {
   modal.classList.remove("hidden");
 }
 
-// GAME 1: POP THE BALLOON BLITZ (15s TIMER WITH SPECIAL BALLOONS)
+// GAME 1: POP THE BALLOON BLITZ (15s TIMER WITH SPECIAL BALLOONS & TRAPS)
 function startBalloonPopGame() {
   playSound('secret');
   let poppedCount = 0;
@@ -1360,7 +1649,7 @@ function startBalloonPopGame() {
 
   const textEl = document.getElementById("verdict-body-text");
   textEl.innerHTML = `
-    <strong>🎈 POP THE BALLOON BLITZ! 🎈</strong><br/>
+    <strong>🎈 OCTOBER 6TH BALLOON BLITZ! 🎈</strong><br/>
     <small style="color:#94a3b8;">Golden (🌟) = +150 | Rainbow (🌈) = +250 | Time (⏳) = +3s | Bomb (💣) = -100</small>
     <div id="balloon-pop-stage" style="width:100%; height:200px; background:rgba(15, 23, 42, 0.85); border:2px solid #a855f7; border-radius:16px; margin-top:10px; position:relative; overflow:hidden;"></div>
     <div id="balloon-timer" style="font-weight:bold; font-size:1.1rem; margin-top:10px; color:#ffd700;">⏱️ Time: 15s | Points: 0</div>
@@ -1608,7 +1897,6 @@ function startRunBirthdayGame() {
     giftX -= 3.8;
     if (giftX < -25) giftX = 340 + Math.random() * 160;
 
-    // Collision Check
     if (obstacleX > 20 && obstacleX < 50 && runnerY > 88) {
       gameRunning = false;
       clearInterval(timerInterval);
@@ -1621,7 +1909,6 @@ function startRunBirthdayGame() {
       return;
     }
 
-    // Collect Gift
     if (giftX > 20 && giftX < 50 && Math.abs(runnerY - giftY) < 30) {
       playSound('pop');
       runnerScore += 20;
@@ -1802,7 +2089,7 @@ function initKonamiCode() {
 }
 
 // --------------------------------------------------------------------------
-// 11. CANVASES & VISUAL SHAKE ENGINES
+// 12. CANVASES & VISUAL SHAKE ENGINES
 // --------------------------------------------------------------------------
 function triggerConfettiExplosion(isGrandFinale = false) {
   const canvas = document.getElementById("confetti-canvas");
