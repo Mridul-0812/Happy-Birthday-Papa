@@ -72,7 +72,7 @@ const gameQuestions = [
       popup: { title: "🥗 DIVINE GHIYA DEVOTEES!", icon: "🥒", badge: "HEALTH GOD", msg: "21 meals of Bottle Gourd consumed! Urad Daal has been saved for eternity." }
     },
     optionB: {
-      text: "Never be allowed to eat Urad Dully Daal again` for life",
+      text: "Never be allowed to eat Urad Dhuli Daal again` for life",
       points: -120,
       verdict: "Tragic error! Permanently banning Urad Daal removes a cornerstone of culinary happiness.",
       popup: { title: "💔 DAAL BAN DISASTER!", icon: "🍲", badge: "CULINARY TRAGEDY", msg: "Banning Urad Daal forever?! The dinner table will never recover." }
@@ -84,7 +84,7 @@ const gameQuestions = [
     type: "WYR",
     theme: "theme-chai",
     title: "The Temperature vs Crispness Paradox",
-    prompt: "Would Papa rather have unlimited Chai that is always slightly too hot OR unlimited biscuits that are always slightly stale?",
+    prompt: "Would Papa rather have unlimited Chai that is always slightly too cold OR unlimited biscuits that are always slightly stale?",
     optionA: {
       text: "Unlimited Chai, but always slightly too hot",
       points: 110,
