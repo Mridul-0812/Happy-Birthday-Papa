@@ -64,7 +64,7 @@ const gameQuestions = [
     type: "WYR",
     theme: "theme-chai",
     title: "The Holy Bottle Ghiya Trade-Off",
-    prompt: "Would Papa rather eat a giant bowl of Ghiya (Bottle God) for breakfast, lunch, and dinner for a week OR never be allowed to eat Urad Dully Daal again?",
+    prompt: "Would Papa rather eat a giant bowl of Ghiya (Bottle God) for breakfast, lunch, and dinner for a week OR never be allowed to eat Urad Dhuli Daal again?",
     optionA: {
       text: "Eat a giant bowl of Ghiya 3 times a day for a week",
       points: 140,
@@ -86,7 +86,7 @@ const gameQuestions = [
     title: "The Temperature vs Crispness Paradox",
     prompt: "Would Papa rather have unlimited Chai that is always slightly too cold OR unlimited biscuits that are always slightly stale?",
     optionA: {
-      text: "Unlimited Chai, but always slightly too hot",
+      text: "Unlimited Chai, but always slightly too cold",
       points: 110,
       verdict: "A patient master's choice! Hot chai can always be blown on or poured into a saucer. Stale biscuits are beyond redemption.",
       popup: { title: "💨 SAUCER BLOWING TECHNIQUE!", icon: "♨️", badge: "PATIENT MASTER", msg: "Patience unlocked! Pouring hot chai into the saucer reduces temperature by 12°C instantly." }
