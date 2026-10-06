@@ -88,7 +88,7 @@ const gameQuestions = [
     optionA: {
       text: "Unlimited Chai, but always slightly too cold",
       points: 110,
-      verdict: "A patient master's choice! Cold chai can always be blown on or poured into a saucer. Stale biscuits are beyond redemption.",
+      verdict: "A patient master's choice! Cold chai can always be poured into a saucer. Stale biscuits are beyond redemption.",
       popup: { title: "💨 SAUCER BLOWING TECHNIQUE!", icon: "♨️", badge: "PATIENT MASTER", msg: "Patience unlocked! Pouring cool chai into the saucer reduces temperature by 12°C instantly." }
     },
     optionB: {
